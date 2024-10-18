@@ -67,13 +67,13 @@ ADDITIONAL COMMANDS
   device shutdown <uuid>                 shutdown a device
   devices supported                      list the supported device types (like 'raspberrypi3' or 'intel-nuc')
   env add <name> [value]                 add env or config variable to application(s), device(s) or service(s)
+  env list                               list the environment or config variables of an application, device or service
   env rename <name> <value>              change the value of a config or env var for an app, device or service
   env rm <id>                            remove a config or env var from an application, device or service
-  envs                                   list the environment or config variables of an application, device or service
-  key <id>                               display an SSH key
-  key add <name> [path]                  add an SSH key to balenaCloud
-  key list                               list the SSH keys in balenaCloud
-  key rm <id>                            remove an SSH key from balenaCloud
+  ssh-key <id>                           display an SSH key
+  ssh-key add <name> [path]              add an SSH key to balenaCloud
+  ssh-key list                           list the SSH keys in balenaCloud
+  ssh-key rm <id>                        remove an SSH key from balenaCloud
   local configure <target>               (Re)configure a balenaOS drive or image
   local flash <image>                    flash an image to a drive
   logout                                 logout from balena
@@ -84,9 +84,9 @@ ADDITIONAL COMMANDS
   os initialize <image>                  initialize an os image for a device
   os versions <type>                     show available balenaOS versions for the given device type
   settings                               print current settings
-  tag rm <tagKey>                        remove a tag from an application, device or release
-  tag set <tagKey> [value]               set a tag on an application, device or release
-  tags                                   list all tags for an application, device or release
+  tag list                               list all tags for a app, block, fleet, device or release
+  tag rm <tagKey>                        remove a tag from an app, block, fleet, device or release
+  tag set <tagKey> [value]               set a tag on an app, block, fleet, device or release
   util available-drives                  list available drives
   version                                display version information for the balena CLI and/or Node.js
   whoami                                 display account information for current user

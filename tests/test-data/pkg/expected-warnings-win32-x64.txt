@@ -132,13 +132,13 @@
   %2: build\commands\env\add.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
+  %2: build\commands\env\list.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
   %2: build\commands\env\rename.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\env\rm.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
-  %2: build\commands\envs\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\fleet\create.js
@@ -172,18 +172,6 @@
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\join\index.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
-  %2: build\commands\key\add.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
-  %2: build\commands\key\index.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
-  %2: build\commands\key\list.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
-  %2: build\commands\key\rm.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\leave\index.js
@@ -255,16 +243,28 @@
   %2: build\commands\ssh\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
+  %2: build\commands\ssh-key\add.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\ssh-key\index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\ssh-key\list.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\ssh-key\rm.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
   %2: build\commands\support\index.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\tag\list.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\tag\rm.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\tag\set.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
-  %2: build\commands\tags\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\tunnel\index.js
