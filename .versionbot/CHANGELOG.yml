@@ -1,4 +1,61 @@
 - commits:
+    - subject: Add alias `device ssh` for `ssh` command
+      hash: 76c08b6c13bd07f657ff5774863425e629d11f0a
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.12.0
+  title: ""
+  date: 2024-10-21T15:07:43.707Z
+- commits:
+    - subject: Update dependency sinon to v19
+      hash: e7761a616bfdfb193f8617b3ba023fb3fce4ed05
+      body: |
+        Update sinon from 18.0.0 to 19.0.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Self-hosted Renovate Bot
+      nested: []
+  version: 19.11.1
+  title: ""
+  date: 2024-10-21T13:05:14.018Z
+- commits:
+    - subject: Add alias `device logs` for `logs`
+      hash: b77f266bd757d62f110d4fc61128b5aa592f7a4e
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+    - subject: git mv `logs/index` to `device/logs`
+      hash: 3c9ac769827da50d7c3617cba13aeaa01bccbba7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+      nested: []
+  version: 19.11.0
+  title: ""
+  date: 2024-10-21T12:08:55.576Z
+- commits:
+    - subject: Add alias `device detect` for `scan`
+      hash: ba5bb7b12c797e024b82232a323afecf1659de19
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+      nested: []
+  version: 19.10.0
+  title: ""
+  date: 2024-10-21T11:13:04.550Z
+- commits:
     - subject: Add alias `organization list` for `orgs` command
       hash: 082cce332a497c15b34467f9ed22514ebaafaec9
       body: ""

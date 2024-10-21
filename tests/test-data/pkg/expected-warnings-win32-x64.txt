@@ -69,6 +69,9 @@
   %2: build\commands\device\deactivate.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
+  %2: build\commands\device\detect.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
   %2: build\commands\device\identify.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
@@ -82,6 +85,9 @@
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\device\local-mode.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\device\logs.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\device\move.js
@@ -115,6 +121,9 @@
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\device\shutdown.js
+> Warning Entry 'main' not found in %1
+  %1: node_modules\@oclif\core\package.json
+  %2: build\commands\device\ssh.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\device\start-service.js
@@ -189,9 +198,6 @@
   %2: build\commands\logout\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
-  %2: build\commands\logs\index.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
   %2: build\commands\notes\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
@@ -234,13 +240,7 @@
   %2: build\commands\release\validate.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
-  %2: build\commands\scan\index.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
   %2: build\commands\settings\index.js
-> Warning Entry 'main' not found in %1
-  %1: node_modules\@oclif\core\package.json
-  %2: build\commands\ssh\index.js
 > Warning Entry 'main' not found in %1
   %1: node_modules\@oclif\core\package.json
   %2: build\commands\ssh-key\add.js

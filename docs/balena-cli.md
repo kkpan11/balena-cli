@@ -81,9 +81,9 @@ HTTP(S) proxies can be configured through any of the following methods, in prece
 * The `HTTPS_PROXY` and/or `HTTP_PROXY` environment variables, in the same URL format as
   `BALENARC_PROXY`.
 
-### Proxy setup for balena ssh
+### Proxy setup for balena device ssh
 
-In order to work behind a proxy server, the `balena ssh` command requires the
+In order to work behind a proxy server, the `balena device ssh` command requires the
 [`proxytunnel`](http://proxytunnel.sourceforge.net/) package (command-line tool) to be installed.
 `proxytunnel` is available for Linux distributions like Ubuntu/Debian (`apt install proxytunnel`),
 and for macOS through [Homebrew](https://brew.sh/). Windows support is limited to the [Windows
@@ -103,7 +103,7 @@ The `BALENARC_NO_PROXY` variable may be used to exclude specified destinations f
 > * This feature requires CLI version 11.30.8 or later. In the case of the npm [installation
 >   option](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md), it also requires
 >   Node.js version 10.16.0 or later.
-> * To exclude a `balena ssh` target from proxying (IP address or `.local` hostname), the
+> * To exclude a `balena device ssh` target from proxying (IP address or `.local` hostname), the
 >   `--noproxy` option should be specified in addition to the `BALENARC_NO_PROXY` variable.
 
 By default (if `BALENARC_NO_PROXY` is not defined), all [private IPv4
@@ -196,11 +196,13 @@ are encouraged to regularly update the balena CLI to the latest version.
 - Devices
 
 	- [device deactivate](#device-deactivate)
+	- [device detect](#device-detect)
 	- [device identify](#device-identify)
 	- [device](#device)
 	- [device init](#device-init)
 	- [device list](#device-list)
 	- [device local-mode](#device-local-mode)
+	- [device logs](#device-logs)
 	- [device move](#device-move)
 	- [device os-update](#device-os-update)
 	- [device pin](#device-pin)
@@ -212,6 +214,7 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device restart](#device-restart)
 	- [device rm](#device-rm)
 	- [device shutdown](#device-shutdown)
+	- [device ssh](#device-ssh)
 	- [device start-service](#device-start-service)
 	- [device stop-service](#device-stop-service)
 	- [device track-fleet](#device-track-fleet)
@@ -241,14 +244,8 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [local configure](#local-configure)
 	- [local flash](#local-flash)
 
-- Logs
-
-	- [logs](#logs)
-
 - Network
 
-	- [scan](#scan)
-	- [ssh](#ssh)
 	- [tunnel](#tunnel)
 
 - Notes
@@ -1257,6 +1254,44 @@ the UUID of the device to be deactivated
 
 answer "yes" to all questions (non interactive use)
 
+## device detect
+
+### Aliases
+
+- `scan`
+
+
+To use one of the aliases, replace `device detect` with the alias.
+
+### Description
+
+Scan for balenaOS devices on your local network.
+
+The output includes device information collected through balenaEngine for
+devices running a development image of balenaOS. Devices running a production
+image do not expose balenaEngine (on TCP port 2375), which is why less
+information is printed about them.
+
+Examples:
+
+	$ balena device detect
+	$ balena device detect --timeout 120
+	$ balena device detect --verbose
+
+### Options
+
+#### -v, --verbose
+
+display full info
+
+#### -t, --timeout TIMEOUT
+
+scan timeout in seconds
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
 ## device identify
 
 ### Description
@@ -1476,6 +1511,70 @@ disable local mode
 #### --status
 
 output boolean indicating local mode status
+
+## device logs
+
+### Aliases
+
+- `logs`
+
+
+To use one of the aliases, replace `device logs` with the alias.
+
+### Description
+
+Show logs for a specific device.
+
+By default, the command prints all log messages and exits.
+
+To continuously stream output, and see new logs in real time, use the `--tail` option.
+
+If an IP or .local address is passed to this command, logs are displayed from
+a local mode device with that address. Note that --tail is implied
+when this command is provided a local mode device.
+
+Logs from a single service can be displayed with the --service flag. Just system logs
+can be shown with the --system flag. Note that these flags can be used together.
+
+Note: --service and --system flags must come after the device parameter, as per examples.
+
+Examples:
+
+	$ balena device logs 23c73a1
+	$ balena device logs 23c73a1 --tail
+	
+	$ balena device logs 192.168.0.31
+	$ balena device logs 192.168.0.31 --service my-service
+	$ balena device logs 192.168.0.31 --service my-service-1 --service my-service-2
+	
+	$ balena device logs 23c73a1.local --system
+	$ balena device logs 23c73a1.local --system --service my-service
+
+### Arguments
+
+#### DEVICE
+
+device UUID, IP, or .local address
+
+### Options
+
+#### --max-retry MAX-RETRY
+
+Maximum number of reconnection attempts on "connection lost" errors
+(use 0 to disable auto reconnection).
+
+#### -t, --tail
+
+continuously stream output
+
+#### -s, --service SERVICE
+
+Reject logs not originating from this service.
+This can be used in combination with --system or other --service flags.
+
+#### -S, --system
+
+Only show system logs. This can be used in combination with --service.
 
 ## device move
 
@@ -1803,6 +1902,80 @@ the uuid of the device to shutdown
 #### -f, --force
 
 force action if the update lock is set
+
+## device ssh
+
+### Aliases
+
+- `ssh`
+
+
+To use one of the aliases, replace `device ssh` with the alias.
+
+### Description
+
+Start a shell on a local or remote device. If a service name is not provided,
+a shell will be opened on the host OS.
+
+If a fleet is provided, an interactive menu will be presented for the selection
+of an online device. A shell will then be opened for the host OS or service
+container of the chosen device.
+
+For local devices, the IP address and .local domain name are supported.
+If the device is referenced by IP or `.local` address, the connection
+is initiated directly to balenaOS on port `22222` via an
+openssh-compatible client. Otherwise, any connection initiated remotely
+traverses the balenaCloud VPN.
+
+Commands may be piped to the standard input for remote execution (see examples).
+Note however that remote command execution on service containers (as opposed to
+the host OS) is not currently possible when a device UUID is used (instead of
+an IP address) because of a balenaCloud backend limitation.
+
+Note: `balena ssh` requires an openssh-compatible client to be correctly
+installed in your shell environment. For more information (including Windows
+support) please check:
+	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies,
+
+Examples:
+
+	$ balena device ssh MyFleet
+	$ balena device ssh f49cefd
+	$ balena device ssh f49cefd my-service
+	$ balena device ssh f49cefd --port <port>
+	$ balena device ssh 192.168.0.1 --verbose
+	$ balena device ssh f49cefd.local my-service
+	$ echo "uptime; exit;" | balena device ssh f49cefd
+	$ echo "uptime; exit;" | balena device ssh 192.168.0.1 myService
+
+### Arguments
+
+#### FLEETORDEVICE
+
+fleet name/slug, device uuid, or address of local device
+
+#### SERVICE
+
+service name, if connecting to a container
+
+### Options
+
+#### -p, --port PORT
+
+SSH server port number (default 22222) if the target is an IP address or .local
+hostname. Otherwise, port number for the balenaCloud gateway (default 22).
+
+#### -t, --tty
+
+force pseudo-terminal allocation (bypass TTY autodetection for stdin)
+
+#### -v, --verbose
+
+increase verbosity
+
+#### --noproxy
+
+bypass global proxy configuration for the ssh connection
 
 ## device start-service
 
@@ -2534,164 +2707,7 @@ Check `balena util available-drives` for available options.
 
 answer "yes" to all questions (non interactive use)
 
-# Logs
-
-## logs
-
-### Description
-
-Show logs for a specific device.
-
-By default, the command prints all log messages and exits.
-
-To continuously stream output, and see new logs in real time, use the `--tail` option.
-
-If an IP or .local address is passed to this command, logs are displayed from
-a local mode device with that address. Note that --tail is implied
-when this command is provided a local mode device.
-
-Logs from a single service can be displayed with the --service flag. Just system logs
-can be shown with the --system flag. Note that these flags can be used together.
-
-Note: --service and --system flags must come after the device parameter, as per examples.
-
-Examples:
-
-	$ balena logs 23c73a1
-	$ balena logs 23c73a1 --tail
-	
-	$ balena logs 192.168.0.31
-	$ balena logs 192.168.0.31 --service my-service
-	$ balena logs 192.168.0.31 --service my-service-1 --service my-service-2
-	
-	$ balena logs 23c73a1.local --system
-	$ balena logs 23c73a1.local --system --service my-service
-
-### Arguments
-
-#### DEVICE
-
-device UUID, IP, or .local address
-
-### Options
-
-#### --max-retry MAX-RETRY
-
-Maximum number of reconnection attempts on "connection lost" errors
-(use 0 to disable auto reconnection).
-
-#### -t, --tail
-
-continuously stream output
-
-#### -s, --service SERVICE
-
-Reject logs not originating from this service.
-This can be used in combination with --system or other --service flags.
-
-#### -S, --system
-
-Only show system logs. This can be used in combination with --service.
-
 # Network
-
-## scan
-
-### Description
-
-Scan for balenaOS devices on your local network.
-
-The output includes device information collected through balenaEngine for
-devices running a development image of balenaOS. Devices running a production
-image do not expose balenaEngine (on TCP port 2375), which is why less
-information is printed about them.
-
-Examples:
-
-	$ balena scan
-	$ balena scan --timeout 120
-	$ balena scan --verbose
-
-### Options
-
-#### -v, --verbose
-
-display full info
-
-#### -t, --timeout TIMEOUT
-
-scan timeout in seconds
-
-#### -j, --json
-
-produce JSON output instead of tabular output
-
-## ssh
-
-### Description
-
-Start a shell on a local or remote device. If a service name is not provided,
-a shell will be opened on the host OS.
-
-If a fleet is provided, an interactive menu will be presented for the selection
-of an online device. A shell will then be opened for the host OS or service
-container of the chosen device.
-
-For local devices, the IP address and .local domain name are supported.
-If the device is referenced by IP or `.local` address, the connection
-is initiated directly to balenaOS on port `22222` via an
-openssh-compatible client. Otherwise, any connection initiated remotely
-traverses the balenaCloud VPN.
-
-Commands may be piped to the standard input for remote execution (see examples).
-Note however that remote command execution on service containers (as opposed to
-the host OS) is not currently possible when a device UUID is used (instead of
-an IP address) because of a balenaCloud backend limitation.
-
-Note: `balena ssh` requires an openssh-compatible client to be correctly
-installed in your shell environment. For more information (including Windows
-support) please check:
-	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies,
-
-Examples:
-
-	$ balena ssh MyFleet
-	$ balena ssh f49cefd
-	$ balena ssh f49cefd my-service
-	$ balena ssh f49cefd --port <port>
-	$ balena ssh 192.168.0.1 --verbose
-	$ balena ssh f49cefd.local my-service
-	$ echo "uptime; exit;" | balena ssh f49cefd
-	$ echo "uptime; exit;" | balena ssh 192.168.0.1 myService
-
-### Arguments
-
-#### FLEETORDEVICE
-
-fleet name/slug, device uuid, or address of local device
-
-#### SERVICE
-
-service name, if connecting to a container
-
-### Options
-
-#### -p, --port PORT
-
-SSH server port number (default 22222) if the target is an IP address or .local
-hostname. Otherwise, port number for the balenaCloud gateway (default 22).
-
-#### -t, --tty
-
-force pseudo-terminal allocation (bypass TTY autodetection for stdin)
-
-#### -v, --verbose
-
-increase verbosity
-
-#### --noproxy
-
-bypass global proxy configuration for the ssh connection
 
 ## tunnel
 
